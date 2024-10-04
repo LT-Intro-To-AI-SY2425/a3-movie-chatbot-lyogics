@@ -169,7 +169,9 @@ def actors_by_title(matches: List[str]) -> List[str]:
     result = []
     for movie in movie_db:
         if get_title(movie) == title:
-            result.append(get_actors(movie))
+           actor_list = movie[3]
+           for actor in actor_list:
+                result.append(actor)
     return result
 
 
@@ -199,7 +201,15 @@ def title_by_actor(matches: List[str]) -> List[str]:
     Returns:
         a list of movie titles that the actor acted in
     """
-    
+    actor = matches[0]
+    result = []
+    for movie in movie_db:
+        actor_list = movie[3]
+        for cactor in actor_list:
+            if actor == cactor:
+                result.append(get_title(movie))
+    return result
+        
 
 
 # dummy argument is ignored and doesn't matter
@@ -238,7 +248,7 @@ def search_pa_list(src: List[str]) -> List[str]:
         a list of answers. Will be ["I don't understand"] if it finds no matches and
         ["No answers"] if it finds a match but no answers
     """
-    pass
+    
 
 
 def query_loop() -> None:
