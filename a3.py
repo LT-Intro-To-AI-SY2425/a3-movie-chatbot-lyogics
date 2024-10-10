@@ -205,12 +205,18 @@ def title_by_actor(matches: List[str]) -> List[str]:
     result = []
     for movie in movie_db:
         actor_list = movie[3]
-        for cactor in actor_list:
-            if actor == cactor:
+        for c_actor in actor_list:
+            if actor == c_actor:
                 result.append(get_title(movie))
     return result
         
-
+def year_by_director(matches: List[str]) -> List[int]:
+    director = matches[0]
+    result = []
+    for movie in movie_db:
+        if get_director(movie) == director:
+            result.append(get_year(movie))
+    return result
 
 # dummy argument is ignored and doesn't matter
 def bye_action(dummy: List[str]) -> None:
@@ -224,6 +230,7 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what movies were made between _ and _"), title_by_year_range),
     (str.split("what movies were made before _"), title_before_year),
     (str.split("what movies were made after _"), title_after_year),
+    (str.split("What years did _ direct in?"), year_by_director),
     # note there are two valid patterns here two different ways to ask for the director
     # of a movie
     (str.split("who directed %"), director_by_title),
@@ -248,7 +255,19 @@ def search_pa_list(src: List[str]) -> List[str]:
         a list of answers. Will be ["I don't understand"] if it finds no matches and
         ["No answers"] if it finds a match but no answers
     """
-    
+    for pattern, action in pa_list:
+        # print(pattern, src, action)
+        mat = match(pattern, src)
+        # print(mat)
+        if mat != None:
+            # print("FOUND")
+            result = action(mat)
+            # print(result)
+            return result
+        if mat == []:
+            return ["No answers"]
+    return ["I don't understand"]
+
 
 
 def query_loop() -> None:

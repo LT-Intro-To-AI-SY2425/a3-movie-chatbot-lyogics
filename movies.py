@@ -25,6 +25,17 @@ movie_db: List[Tuple[str, str, int, List[str]]] = [
         ],  # actors/actresses
     ),
     (
+        "ace ventura: pet detective",
+        "tom shadyac",
+        1994,
+        [
+            "jim carrey",
+            "sean young",
+            "courteney cox",
+            "dan marino",
+        ],
+    ),
+    (
         "the big easy",
         "jim mcbride",
         1987,
